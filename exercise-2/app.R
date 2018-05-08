@@ -1,12 +1,23 @@
 # Exercise 1: Shiny basics
 
 # Install and load the `shiny` package
+#install.packages("shiny")
 library(shiny)
 
 # Define a new `ui` variable. This variable should be assigned a `fluidPage()` layout
 # The `fluidPage()` layout should be passed the following:
+ui <- fluidPage(titlePanel("Cost Calculator"),
+                numericInput("price", label = "Price (in dollars)", value = 0, min = 0),
+                numericInput("quantity", label = "Quantity", value = 1, min = 1),
+                p("Cost"),
+                textOutput("cost"))
 
+server <- function(input, output) {
+  output$cost <- renderText({
+    return(paste0("$", input$price * input$quantity))
+  })
   
+}
   # A `titlePanel()` layout with the text "Cost Calculator"
 
   
@@ -26,7 +37,6 @@ library(shiny)
 
 
 
-
 # Define a `server` function (with appropriate arguments)
 # This function should perform the following:
 
@@ -36,4 +46,6 @@ library(shiny)
   # So it looks nice, paste a "$" in front of it!
 
 
+
 # Create a new `shinyApp()` using the above ui and server
+shinyApp(ui, server)
